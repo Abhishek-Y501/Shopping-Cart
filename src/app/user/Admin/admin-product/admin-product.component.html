@@ -1,0 +1,86 @@
+<div class="row">
+    <div class="col-md-3 mb-2" *ngFor="let product of products">
+        <div class="card custom-card-heigh">
+            <div class="card-body">
+                <div class="text-center">
+                    <img alt="image" [src]="product.ImageUrl" width="200" height="100">
+                </div>
+                <div class="mt-2">
+                    <p class="float-left">{{product.Name}}</p>
+                    <p class="float-right">{{product.Description}}</p>
+                </div>
+                <div class="clearfix"></div>
+                <div class="mt-2">
+                    <p class="text-success text-center bg-secondary"><b>{{product.Price | currency}}</b> </p>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-warning" (click)="editProduct(template,product)">Edit</button>
+                <div class="float-right">
+                    <button type="button" class="btn btn-danger" (click)="deleteProduct(product._id)">Delete</button>
+                </div>
+                <div class="crearfix"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-2 text-center" *ngIf="products.length==0">
+        <h5 class="text-center text-danger">No Products To Show!!!</h5>
+    </div>
+</div>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 id="dialog-static-name" class="modal-title pull-left">Update Product</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="productForm" novalidate="novalidate">
+            <div class="form-group">
+                <label for="Name">Name</label>
+                <input type="text" class="form-control" formControlName="Name"
+                    [ngClass]="{'is-invalid':productForm.controls.Name.invalid && productForm.controls.Name.touched}">
+                <div *ngIf="productForm.controls.Name.invalid && productForm.controls.Name.touched">
+                    <p class="help-block" *ngIf="productForm.controls.Name.errors?.required">You can`t leave
+                        empty this.</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Description">Description</label>
+                <input type="text" class="form-control" formControlName="Description"
+                    [ngClass]="{'is-invalid':productForm.controls.Description.invalid && productForm.controls.Description.touched}">
+                <div *ngIf="productForm.controls.Description.invalid && productForm.controls.Description.touched">
+                    <p class="help-block" *ngIf="productForm.controls.Description.errors?.required">You can`t
+                        leave empty this.</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ImageUrl">Image</label>
+                <input type="file" class="form-control" (change)="onFileChange($event)">
+                <!-- <div *ngIf="productForm.controls.ImageUrl.invalid && productForm.controls.ImageUrl.touched">
+                                <p class="help-block" *ngIf="productForm.controls.ImageUrl.errors?.required">You can`t leave
+                                    empty this.</p>
+                            </div> -->
+            </div>
+            <div class="form-group text-center" *ngIf="imagePreview">
+                <img [src]="imagePreview" alt="Preview" width="200" height="100">
+            </div>
+            <div class="form-group">
+                <label for="Price">Price</label>
+                <input type="number" class="form-control" formControlName="Price"
+                    [ngClass]="{'is-invalid':productForm.controls.Price.invalid && productForm.controls.Price.touched}">
+                <div *ngIf="productForm.controls.Price.invalid && productForm.controls.Price.touched">
+                    <p class="help-block" *ngIf="productForm.controls.Price.errors?.required">You can`t leave
+                        empty this.</p>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="updateProduct()">Submit</button>
+        <button type="button" class="btn btn-secondary" (click)="bsModalRef.hide()">Close</button>
+    </div>
+</ng-template>

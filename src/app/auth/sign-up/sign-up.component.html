@@ -1,0 +1,50 @@
+<div class="row mt-p">
+    <div class="col-md-4 offset-md-4">
+        <div class="card custom-card">
+            <div class="card-header">
+                <h5 class="text-center text-primary">Register</h5>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="signupForm" (ngSubmit)="submit()" novalidate="novalidate">
+                    <div class="form-group">
+                        <label for="Name">Name*</label>
+                        <input type="text" class="form-control" formControlName="Name"
+                            [ngClass]="{'is-invalid':signupForm.controls.Name.invalid && signupForm.controls.Name.touched}" />
+                        <div *ngIf="signupForm.controls.Name.invalid && signupForm.controls.Name.touched">
+                            <p class="help-block" *ngIf="signupForm.controls.Name.errors?.required">You can`t leave this
+                                empty.</p>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Email">Email*</label>
+                        <input type="email" class="form-control" formControlName="Email"
+                            [ngClass]="{'is-invalid':signupForm.controls.Email.invalid && signupForm.controls.Email.touched}" />
+                        <div *ngIf="signupForm.controls.Email.invalid && signupForm.controls.Email.touched">
+                            <p class="help-block" *ngIf="signupForm.controls.Email.errors?.required">You can`t leave
+                                this
+                                empty.</p>
+                            <p class="help-block" *ngIf="signupForm.controls.Email.errors?.email">Invalid email address.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Password">Password*</label>
+                        <input type="password" class="form-control" formControlName="Password"
+                            [ngClass]="{'is-invalid':signupForm.controls.Password.invalid && signupForm.controls.Password.touched}" />
+                        <div *ngIf="signupForm.controls.Password.invalid && signupForm.controls.Password.touched">
+                            <p class="help-block" *ngIf="signupForm.controls.Password.errors?.required">You can`t leave
+                                this
+                                empty.</p>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

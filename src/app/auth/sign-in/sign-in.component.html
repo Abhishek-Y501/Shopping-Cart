@@ -1,0 +1,38 @@
+<div class="row mt-p">
+    <div class="col-md-4 offset-md-4">
+        <div class="card custom-card">
+            <div class="card-header">
+                <h5 class="text-center text-primary">Login</h5>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="loginForm" (ngSubmit)="submit()" novalidate="novalidate">
+                    <div class="form-group">
+                        <label for="Name">UserName*</label>
+                        <input type="text" class="form-control" formControlName="Name"
+                            [ngClass]="{'is-invalid':loginForm.controls.Name.invalid && loginForm.controls.Name.touched}" />
+                        <div *ngIf="loginForm.controls.Name.invalid && loginForm.controls.Name.touched">
+                            <p class="help-block" *ngIf="loginForm.controls.Name.errors?.required">You can`t leave this
+                                empty.</p>
+                            <p class="help-block" *ngIf="loginForm.controls.Name.errors?.email">Invalid email address.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Password">Password*</label>
+                        <input type="password" class="form-control" formControlName="Password"
+                            [ngClass]="{'is-invalid':loginForm.controls.Password.invalid && loginForm.controls.Password.touched}" />
+                        <div *ngIf="loginForm.controls.Password.invalid && loginForm.controls.Password.touched">
+                            <p class="help-block" *ngIf="loginForm.controls.Password.errors?.required">You can`t leave
+                                this
+                                empty.</p>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
