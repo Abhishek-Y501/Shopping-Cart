@@ -20,6 +20,15 @@
       </ul>
       <ul class="navbar-nav ml-auto custom-align">
         <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" [routerLink]="'/user/orders'">Orders</a>
+        </li>
+        <li class="nav-item text-center" routerLinkActive="active">
+          <div class="pointer" (click)="navigateToCart()">
+            <span class="badge badge-danger badge-position" *ngIf="cartItemCount>0">{{cartItemCount}}</span>
+            <img src="../assets/images/cart-icon.png" class="cart-icon text-center pt-0" alt="cart">
+          </div>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" [routerLink]="'/signIn'">Login </a>
         </li>
         <li class="nav-item" routerLinkActive="active">

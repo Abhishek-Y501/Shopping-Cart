@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpClient } from '@angular/common/http';
-import { throwError, from } from 'rxjs';
+import { throwError, from, BehaviorSubject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
@@ -9,8 +9,10 @@ import { environment } from '../../environments/environment';
 })
 export class UserService {
   private rootUrl = environment.apiBaseUrl;
-  constructor(private httpClient: HttpClient) { }
+  cartCount=new BehaviorSubject<any>(null);
 
+  constructor(private httpClient: HttpClient) { }
+  
   getProducts() {
     return this.httpClient.get(this.rootUrl + 'products').pipe(
       catchError(this.handleError),
@@ -63,6 +65,69 @@ export class UserService {
 
   deleteProduct(id: string) {
     return this.httpClient.delete(this.rootUrl + 'deleteProduct/' + id).pipe(
+      catchError(this.handleError),
+      map((response: any) => {
+        return response;
+      })
+    )
+  }
+
+  getCart() {
+    return this.httpClient.get(this.rootUrl + 'getCart').pipe(
+      catchError(this.handleError),
+      map((response: any) => {
+        return response;
+      })
+    )
+  }
+
+  addToCart(productId: string) {
+    return this.httpClient.post(this.rootUrl + 'addToCart', { productId: productId }).pipe(
+      catchError(this.handleError),
+      map((response: any) => {
+        return response;
+      })
+    )
+  }
+
+  getCartCount() {
+    return this.httpClient.get(this.rootUrl + 'getCartCount').pipe(
+      catchError(this.handleError),
+      map((response: any) => {
+        return response;
+      })
+    )
+  }
+
+  deleteCartItem(productId: string) {
+    return this.httpClient.post(this.rootUrl + 'removeFromCart', { productId: productId }).pipe(
+      catchError(this.handleError),
+      map((response: any) => {
+        return response;
+      })
+    )
+  }
+
+  addOrder() {
+    return this.httpClient.get(this.rootUrl + 'addOrder').pipe(
+      catchError(this.handleError),
+      map((response: any) => {
+        return response;
+      })
+    )
+  }
+
+  getOrders() {
+    return this.httpClient.get(this.rootUrl + 'getOrders').pipe(
+      catchError(this.handleError),
+      map((response: any) => {
+        return response;
+      })
+    )
+  }
+
+  checkout() {
+    return this.httpClient.get(this.rootUrl + 'checkout').pipe(
       catchError(this.handleError),
       map((response: any) => {
         return response;

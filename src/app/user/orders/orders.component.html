@@ -1,0 +1,15 @@
+<div class="row">
+    <div class="col-md-12">
+        <ul class="list-group mb-2" *ngFor="let order of orders">
+            <h5 class="text-success">Order-#{{order._id}}</h5>
+            <li class="list-group-item" *ngFor="let product of order.products">
+                <span class="text-primary float-left">Name:- {{product.product.Name}}</span>
+                <span class="text-danger float-right">Quantity:- {{product.quantity}}</span>
+                <div class="clearfix"></div>
+            </li>
+        </ul>
+        <ul class="list-group" *ngIf="orders.length==0">
+            <li *ngIf="orders.length==0" class="text-center text-danger font-bold">No orders to display..</li>
+        </ul>
+    </div>
+</div>

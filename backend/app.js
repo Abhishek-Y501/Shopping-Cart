@@ -7,7 +7,8 @@ const cors = require('cors');
 const Error = require('./util/error');
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
-
+const shopRoutes = require('./routes/shop');
+const User=require('./models/user');
 const app = express();
 
 app.use(bodyParser.json());
@@ -33,8 +34,10 @@ app.use(cors());
 //     next();
 // });
 
+
 app.use('/api', authRoutes);
 app.use('/api', adminRoutes);
+app.use('/api', shopRoutes);
 
 app.use((error, req, res, next) => {
     let statusCode = error.statusCode || 500;
@@ -42,6 +45,7 @@ app.use((error, req, res, next) => {
         Error.Error('Something Went Wrong!', 'Something Went Wrong!', 0, "displayMessage")
     )
 })
+
 
 mongoose.connect("mongodb+srv://abhishek:cGWmXz90wfvFZItP@cluster0-rfd5b.mongodb.net/SHOP_KART").then(result => {
     console.log('DB Connected!!!');

@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/user/user.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -15,7 +16,7 @@ export class SignInComponent implements OnInit {
 
   public loginForm: FormGroup;
   constructor(private formValidationService: FormValidationService, private authService: AuthService,
-    private toastr: ToastrService, private routes: Router) { }
+    private toastr: ToastrService, private routes: Router,private userService:UserService) { }
 
   ngOnInit(): void {
     this.createFormControl();
@@ -45,7 +46,22 @@ export class SignInComponent implements OnInit {
 
   private signIn_Success(response: any): void {
     this.toastr.success(response.responseHeaderText, "Success!");
-    this.routes.navigate(['/user/products'])
+    this.getCartCount();
+    this.routes.navigate(['/user/products']);
+  }
+
+  getCartCount() {
+    this.userService.getCartCount().subscribe(
+      (response: any) => {
+        this[response.responseMethod](response);
+      }, (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    )
+  }
+
+  getCartCount_success(response: any) {
+    this.userService.cartCount.next(response.data);
   }
 
 
