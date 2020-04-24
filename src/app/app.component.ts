@@ -42,6 +42,7 @@ export class AppComponent implements OnInit {
         this.cartItemCount = total;
       }
     )
+    this.authService.autoLogin();
   }
 
   public logout() {
