@@ -7,6 +7,7 @@ import { AdminProductComponent } from './Admin/admin-product/admin-product.compo
 import { CartComponent } from './cart/cart.component';
 import { OrdersComponent } from './orders/orders.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { ViewProductComponent } from './view-product/view-product.component';
 
 
 const routes: Routes = [
@@ -14,21 +15,30 @@ const routes: Routes = [
     path: '', component: UserComponent, children: [
       {
         path: '', pathMatch: 'full', redirectTo: '/user'
-      }, {
+      },
+      {
         path: 'user', component: UserComponent, data: { title: 'User' }
-      }, {
+      },
+      {
         path: 'products', component: ProductsComponent, data: { title: 'Products' }
-      }, {
+      },
+      {
         path: 'addProducts', component: AddProductComponent, data: { title: 'AddProducts' }
-      }, {
+      },
+      {
         path: 'adminProducts', component: AdminProductComponent, data: { title: 'AdminProducts' }
       },
       {
         path: 'cart', component: CartComponent, data: { title: 'Cart' }
-      }, {
+      },
+      {
         path: 'orders', component: OrdersComponent, data: { title: 'Orders' }
-      }, {
+      },
+      {
         path: 'checkout', component: CheckoutComponent, data: { title: 'Checkout' }
+      },
+      {
+        path: 'viewProduct', component: ViewProductComponent, data: { title: 'ViewProduct' }
       }
     ]
   }

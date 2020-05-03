@@ -9,5 +9,6 @@ routes.get('/products', isAuth.auth, adminController.products);
 routes.post('/addProduct', isAuth.auth, extractFile, adminController.addProduct);
 routes.delete('/deleteProduct/:id', isAuth.auth, adminController.deleteProduct);
 routes.put('/updateProduct/:id', isAuth.auth, extractFile, adminController.updateProduct);
+routes.post('/productById', isAuth.auth, adminController.productById);
 
 module.exports = routes;

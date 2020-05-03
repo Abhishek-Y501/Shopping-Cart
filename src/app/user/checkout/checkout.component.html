@@ -6,9 +6,77 @@
                 <span class="text-danger float-right">Quantity:-{{product.quantity}}</span>
             </li>
             <li class="list-group-item text-center">Total:- <b class="text-warning">{{total}}</b></li>
-            <li class="list-group-item text-center">
-                <button type="button" class="btn btn-primary btn-sm" (click)="addOrder()">Order</button>
-            </li>
         </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="text-center">Address</h5>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="orderForm" (ngSubmit)="addOrder()" novalidate="novalidate">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" formControlName="name"
+                            [ngClass]="{'is-invalid':orderForm.controls.name.invalid && orderForm.controls.name.touched}">
+                        <div *ngIf="orderForm.controls.name.invalid && orderForm.controls.name.touched">
+                            <p class="help-block" *ngIf="orderForm.controls.name.errors?.required">You can`t leave
+                                empty this.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="street">Street</label>
+                        <input type="text" class="form-control" formControlName="street"
+                            [ngClass]="{'is-invalid':orderForm.controls.street.invalid && orderForm.controls.street.touched}">
+                        <div *ngIf="orderForm.controls.street.invalid && orderForm.controls.street.touched">
+                            <p class="help-block" *ngIf="orderForm.controls.street.errors?.required">You can`t
+                                leave empty this.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" formControlName="city"
+                            [ngClass]="{'is-invalid':orderForm.controls.city.invalid && orderForm.controls.city.touched}">
+                        <div *ngIf="orderForm.controls.city.invalid && orderForm.controls.city.touched">
+                            <p class="help-block" *ngIf="orderForm.controls.city.errors?.required">You can`t
+                                leave empty this.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State</label>
+                        <input type="text" class="form-control" formControlName="state"
+                            [ngClass]="{'is-invalid':orderForm.controls.state.invalid && orderForm.controls.state.touched}">
+                        <div *ngIf="orderForm.controls.state.invalid && orderForm.controls.state.touched">
+                            <p class="help-block" *ngIf="orderForm.controls.state.errors?.required">You can`t
+                                leave empty this.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="zip">Zip</label>
+                        <input type="text" class="form-control" formControlName="zip"
+                            [ngClass]="{'is-invalid':orderForm.controls.zip.invalid && orderForm.controls.zip.touched}">
+                        <div *ngIf="orderForm.controls.zip.invalid && orderForm.controls.zip.touched">
+                            <p class="help-block" *ngIf="orderForm.controls.zip.errors?.required">You can`t
+                                leave empty this.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="number">Phone Number</label>
+                        <input type="text" class="form-control" formControlName="number"
+                            [ngClass]="{'is-invalid':orderForm.controls.number.invalid && orderForm.controls.number.touched}">
+                        <div *ngIf="orderForm.controls.number.invalid && orderForm.controls.number.touched">
+                            <p class="help-block" *ngIf="orderForm.controls.number.errors?.required">You can`t
+                                leave empty this.</p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>

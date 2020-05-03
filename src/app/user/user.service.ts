@@ -9,10 +9,10 @@ import { environment } from '../../environments/environment';
 })
 export class UserService {
   private rootUrl = environment.apiBaseUrl;
-  cartCount=new BehaviorSubject<any>(null);
+  cartCount = new BehaviorSubject<any>(null);
 
   constructor(private httpClient: HttpClient) { }
-  
+
   getProducts() {
     return this.httpClient.get(this.rootUrl + 'products').pipe(
       catchError(this.handleError),
@@ -56,6 +56,15 @@ export class UserService {
     }
 
     return this.httpClient.put(this.rootUrl + 'updateProduct/' + userId, formData).pipe(
+      catchError(this.handleError),
+      map((response: any) => {
+        return response;
+      })
+    )
+  }
+
+  productById(id: string) {
+    return this.httpClient.post(this.rootUrl + 'productById/', { productId: id }).pipe(
       catchError(this.handleError),
       map((response: any) => {
         return response;
@@ -108,8 +117,8 @@ export class UserService {
     )
   }
 
-  addOrder() {
-    return this.httpClient.get(this.rootUrl + 'addOrder').pipe(
+  addOrder(address: any) {
+    return this.httpClient.post(this.rootUrl + 'addOrder', address).pipe(
       catchError(this.handleError),
       map((response: any) => {
         return response;

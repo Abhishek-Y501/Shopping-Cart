@@ -40,6 +40,10 @@ export class ProductsComponent implements OnInit {
     )
   }
 
+  goToView(productId: String): void {
+    this.router.navigate(['/user/viewProduct', { id: productId }]);
+  }
+
   addToCart_success(response: any) {
     this.toast.success(response.responseBodyText, response.responseHeaderText);
     this.router.navigate(['/user/cart']);

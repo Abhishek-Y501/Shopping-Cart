@@ -12,6 +12,16 @@ exports.products = ((req, res, next) => {
     })
 });
 
+exports.productById = ((req, res, next) => {
+    console.log(req.body.productId);
+    Product.findById(req.body.productId).then(product => {
+        res.status(201).json(Response('Success', 'Data retrived successfully!', 1, 'productById_success', product));
+    }).catch(err => {
+        err.statusCode = 500;
+        next(err);
+    })
+});
+
 exports.addProduct = ((req, res, next) => {
     const url = req.protocol + "://" + req.get("host");
     const product = {
@@ -33,7 +43,7 @@ exports.deleteProduct = ((req, res, next) => {
     const productId = req.params.id;
     Product.findById(productId).then(product => {
         console.log(product.ImageUrl.split('images/')[1]);
-        fs.unlink('backend/images/' + product.ImageUrl.split('images/')[1], (err) => { if (err) console.log(err) });
+        fs.unlink('images/' + product.ImageUrl.split('images/')[1], (err) => { if (err) console.log(err) });
         return Product.deleteOne({ _id: productId })
     }).then(result => {
         res.status(200).json(Response('Success', 'Data deleted successfully!', 1, 'productDelete_success', result))

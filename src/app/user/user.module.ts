@@ -9,11 +9,12 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { OrdersComponent } from './orders/orders.component';
+import { ViewProductComponent } from './view-product/view-product.component';
 
 
 
 @NgModule({
-  declarations: [UserComponent, ProductsComponent, AddProductComponent, AdminProductComponent, CartComponent, CheckoutComponent, OrdersComponent],
+  declarations: [UserComponent, ProductsComponent, AddProductComponent, AdminProductComponent, CartComponent, CheckoutComponent, OrdersComponent, ViewProductComponent],
   imports: [
     SharedModule,
     UserRoutingModule,

@@ -81,6 +81,7 @@ exports.checkout = ((req, res, next) => {
 })
 
 exports.addOrder = ((req, res, next) => {
+    console.log(req.body);
     req.users.populate('Cart.items.productId').execPopulate()
         .then(user => {
             const product = user.Cart.items.map(cp => {
@@ -93,6 +94,14 @@ exports.addOrder = ((req, res, next) => {
                     user: {
                         email: req.user.email,
                         userId: req.user.userId
+                    },
+                    address: {
+                        name: req.body.name,
+                        street: req.body.street,
+                        city: req.body.city,
+                        state: req.body.state,
+                        zip: req.body.zip,
+                        number:req.body.number
                     }
                 }
             )

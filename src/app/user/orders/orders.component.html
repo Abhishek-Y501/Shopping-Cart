@@ -1,7 +1,16 @@
 <div class="row">
     <div class="col-md-12">
         <ul class="list-group mb-2" *ngFor="let order of orders">
-            <h5 class="text-success">Order-#{{order._id}}</h5>
+            <h5 class="text-success">Order-#{{order._id}}------> <span class="text-warning">{{order.insertedAt}}</span>
+            </h5>
+            <section class="text-center" *ngIf="order.address">
+                <p>{{order.address.name}}</p>
+                <p>{{order.address.street}}</p>
+                <p>{{order.address.city}}</p>
+                <p>{{order.address.state}}</p>
+                <p>{{order.address.zip}}</p>
+                <p>{{order.address.number}}</p>
+            </section>
             <li class="list-group-item" *ngFor="let product of order.products">
                 <span class="text-primary float-left">Name:- {{product.product.Name}}</span>
                 <span class="text-danger float-right">Quantity:- {{product.quantity}}</span>
