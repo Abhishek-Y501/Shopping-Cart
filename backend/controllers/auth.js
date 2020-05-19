@@ -4,9 +4,10 @@ const error = require('../util/error');
 const bcrypt = require('bcryptjs');
 const sgMail = require('@sendgrid/mail');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 
-const api_key = "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";
+const api_key = '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';
 sgMail.setApiKey(api_key);
 
 exports.signUp = ((req, res, next) => {
@@ -30,16 +31,33 @@ exports.signUp = ((req, res, next) => {
             .then(result => {
                 insertedData = result;
                 const msg = {
-                    to: 'abhikrhans@gmail.com',
+                    to: req.body.Email,
                     from: 'abhikryadav85@gmail.com',
-                    subject: 'Signup succeeded!',
+                    subject: 'Welcome to ABHISHOP',
                     text: 'Account Created!!!',
-                    html: '<h1>You successfully signed up!</h1><br/> <a href="http://localhost:4200/signIn">Click here</a> <span>to Login</span>'
+                    html: `<img src="http://abhi-shop-website.s3-website.us-east-2.amazonaws.com/assets/images/avtar.png" 
+                    width="100" height="80">
+                    <h4>Welcome to ABHISHOP,</h4>
+                    <p>Thank you for creating a ABHISHOP account.</p>
+                    <a href="http://abhi-shop-website.s3-website.us-east-2.amazonaws.com/signIn">Click here</a> <span>to Login</span>
+                    <p>Thank you for joining ABHISHOP.</p>
+                    <p>Sincerely,</p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <h4>The ABHISHOP Team</h>`
                 };
-                sgMail.send(msg);
-                res.status(200).json(
-                    Response.Response('Account Created SuccessFully!', 'Account Created SuccessFully!', 1, "signUp_Success", insertedData)
-                )
+                sgMail.send(msg).then((mail) => {
+                    return res.status(200).json(
+                        Response.Response('Account Created SuccessFully!', 'Account Created SuccessFully!', 1, "signUp_Success", insertedData)
+                    )
+                }, error => {
+                    console.error(error);
+                    if (error.response) {
+                        console.error(error.response.body)
+
+                    }
+                });
             })
             .catch(err => {
                 const error = new Error(err);
@@ -68,7 +86,7 @@ exports.signIn = ((req, res, next) => {
     }).then(passMatch => {
         if (!passMatch) {
             return res.status(203).json(
-                error.Error('Invalid Passowrd Address!', 'Invalid Passowrd Address!', 0, "signIn_Fail"
+                error.Error('Invalid Password Address!', 'Invalid Password Address!', 0, "signIn_Fail"
                 ))
         }
         const token = jwt.sign({
@@ -87,3 +105,120 @@ exports.signIn = ((req, res, next) => {
             return next(err);
         })
 })
+
+exports.forgotPassword = ((req, res, next) => {
+    User.findOne({ Email: req.body.Email }).then(user => {
+        if (!user) {
+            return res.status(203).json(
+                error.Error('Account not found with this email!', 'Account not found with this email!', 0, "forgotPassword_Fail")
+            )
+        }
+        crypto.randomBytes(32, (err, buffer) => {
+            if (err) {
+                console.log(err);
+                return res.status(203).json(
+                    error.Error('Account not found with this email!', 'Account not found with this email!', 0, "forgotPassword_Fail")
+                )
+            }
+            const token = buffer.toString('hex');
+            user.resetToken = token;
+            user.resetTokenExpriesIn = Date.now() + 3600000;
+            user.save().then(result => {
+                const msg = {
+                    to: req.body.Email,
+                    from: 'abhikryadav85@gmail.com',
+                    subject: 'Password Reset!',
+                    text: 'Password Reset!!!',
+                    html: `
+                    <h4>Dear Customer,</h4>
+                    <p>A request to reset the password for your account has been made at <b>ABHISHOP.</b></p>
+                    <p>You may now log in by clicking on this link or copying and pasting it in your browser:</p>
+                    <p><a href="http://abhi-shop-website.s3-website.us-east-2.amazonaws.com/resetPassword/${token}">http://localhost:4200/resetPassword/${token}</a></p>
+                    <p>This is a one-time reset, so it can be used only once. It expires after 1 hour and nothing will happen if it's not used.</p>
+                    <p>Once click on this link, you will be redirected to password reset page so that you can change your password.</p>
+                    
+                    
+                    -- <h5>ABHISHOP team</h5>
+                    <img src="http://abhi-shop-website.s3-website.us-east-2.amazonaws.com/assets/images/avtar.png" 
+                    width="100" height="80">`
+                };
+                sgMail.send(msg).then((mail) => {
+                    return res.status(200).json(
+                        Response.Response('Password Recover link sent to your Email!', 'Password Recover link sent to your Email!', 1, "forgotPassword_Success", user)
+                    )
+                }, error => {
+                    console.error(error);
+                    if (error.response) {
+                        console.error(error.response.body)
+
+                    }
+                });
+
+            })
+        })
+
+    }).catch(err => {
+        const error = new Error(err);
+        error.statusCode = 402;
+        return next(err);
+    })
+});
+
+exports.resetPassword = (req, res, next) => {
+    const token = req.body.token;
+    User.findOne({ resetToken: token, resetTokenExpriesIn: { $gt: Date.now() } })
+        .then(user => {
+            if (user) {
+                return res.status(200).json(Response.Response('Token is Valid!',
+                    'Password Recover link sent to your Email!', 1,
+                    "forgotPassword_Success", { userId: user._id.toString(), resetToken: token }))
+            } else {
+                console.log(user)
+                return res.status(203).json(
+                    error.Error('Invalid Token!', 'Invalid Token!', 0, "forgotPassword_Fail"
+                    ))
+            }
+        })
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
+        });
+};
+
+exports.setNewPassword = (req, res, next) => {
+    const newPassword = req.body.NewPassword;
+    const userId = req.body.UserId;
+    const passwordToken = req.body.PasswordToken;
+    let resetUser;
+
+    User.findOne({
+        resetToken: passwordToken,
+        resetTokenExpriesIn: { $gt: Date.now() },
+        _id: userId
+    })
+        .then(user => {
+            resetUser = user;
+            return bcrypt.hash(newPassword, 10);
+        })
+        .then(hashedPassword => {
+            resetUser.password = hashedPassword;
+            resetUser.resetToken = undefined;
+            resetUser.resetTokenExpriesIn = undefined;
+            return User.updateOne({
+                resetToken: passwordToken,
+                resetTokenExpriesIn: { $gt: Date.now() },
+                _id: userId
+            }, { Password: hashedPassword, resetToken: undefined, resetTokenExpriesIn: undefined })
+        })
+        .then(result => {
+            res.status(202).json(Response.Response('Password reset successfully!',
+                'Password reset successfully!', 1,
+                "setNewPassword_Success", result))
+        })
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
+        });
+};

@@ -8,11 +8,13 @@ import { CartComponent } from './cart/cart.component';
 import { OrdersComponent } from './orders/orders.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ViewProductComponent } from './view-product/view-product.component';
+import { AuthGuard } from '../auth/auth.guard';
 
 
 const routes: Routes = [
   {
-    path: '', component: UserComponent, children: [
+    path: '', component: UserComponent, canActivateChild: [AuthGuard],
+    children: [
       {
         path: '', pathMatch: 'full', redirectTo: '/user'
       },

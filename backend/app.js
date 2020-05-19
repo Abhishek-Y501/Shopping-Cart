@@ -13,7 +13,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use("/images", express.static(path.join(__dirname, "images")));
-app.use("/", express.static(path.join(__dirname, "ShopKart")));
+// app.use("/", express.static(path.join(__dirname, "ShopKart")));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -41,9 +41,9 @@ app.use('/api', authRoutes);
 app.use('/api', adminRoutes);
 app.use('/api', shopRoutes);
 
-app.use((req, res, next) => {
-    res.sendFile(path.join(__dirname, "ShopKart", "index.html"));
-});
+// app.use((req, res, next) => {
+//     res.sendFile(path.join(__dirname, "ShopKart", "index.html"));
+// });
 
 
 app.use((error, req, res, next) => {

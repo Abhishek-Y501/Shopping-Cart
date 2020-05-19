@@ -13,8 +13,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class AppComponent implements OnInit {
 
-  title = ':: ShopKart ::';
+  title = ':: AbhiShop ::';
   cartItemCount = 0;
+  isLogedin = false;
 
   constructor(private titleService: Title, private router: Router, private activatedRoute: ActivatedRoute,
     private authService: AuthService, private userService: UserService) { }
@@ -40,18 +41,36 @@ export class AppComponent implements OnInit {
     this.userService.cartCount.subscribe(
       (total: any) => {
         this.cartItemCount = total;
+        this.authService.autoLogin();
+        this.authService.User.subscribe(
+          user => {
+            if (user) {
+              this.isLogedin = true;
+            } else {
+              this.isLogedin = false;
+            }
+          }
+        )
       }
     )
-    this.authService.autoLogin();
   }
 
   public logout() {
+    setTimeout(() => {
+      this.isLogedin = false;
+    }, 2000)
     this.authService.logout();
-    this.router.navigate(['/signIn']);
     this.userService.cartCount.next(null);
   }
 
   public navigateToCart(): void {
     this.router.navigate(['/user/cart']);
+  }
+
+  public toggle(): void {
+    if (window.innerWidth < 990) {
+      var element = document.getElementById("navbarSupportedContent");
+      element.classList.remove("show");
+    }
   }
 }

@@ -1,12 +1,13 @@
 <div class="row">
     <div class="col-md-12">
         <ul class="list-group">
-            <li class="list-group-item" *ngFor="let product of cartProducts">
+            <li class="list-group-item text-center" *ngFor="let product of cartProducts">
                 <span class="text-primary float-left font-bold">{{product.productId.Name}}</span>
-                <span class="text-warning float-center font-bold custom-margin">Quantity:-{{product.quantity}}</span>
+                <span class="text-warning font-bold">Quantity:-{{product.quantity}}-<input type="number" [value]="product.quantity"></span>
+                <span class="text-warning font-bold">Price:-{{product.productId.Price*product.quantity | currency}}</span>
                 <span class="float-right"><button type="button" class="btn btn-danger btn-sm"
                         (click)="deleteCartItem(product.productId._id)">Delete</button></span>
-                <div class="clearfix"></div>
+                <span class="clearfix"></span>
             </li>
             <li class="list-group-item text-center" *ngIf="cartProducts.length>0">
                 <button type="button" class="btn btn-primary btn-sm" (click)="buyNow()">Checkout</button>

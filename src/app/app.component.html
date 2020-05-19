@@ -1,14 +1,15 @@
 <ngx-ui-loader></ngx-ui-loader>
 <div class="main-header">
   <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-    <h5 class="mr-2">ShopKart</h5>
+    <!-- <h5 class="mr-2">ShopKart</h5> -->
+    <img src="../assets/images/avtar.png" class="avtar-icon text-center pt-0" alt="cart">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav custom-align">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" (click)="toggle()">
+      <ul class="navbar-nav custom-align" *ngIf="isLogedin">
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" [routerLink]="'/user/products'">Products <span class="sr-only">(current)</span></a>
         </li>
@@ -20,22 +21,22 @@
         </li>
       </ul>
       <ul class="navbar-nav ml-auto custom-align">
-        <li class="nav-item" routerLinkActive="active">
+        <li class="nav-item" routerLinkActive="active" *ngIf="isLogedin">
           <a class="nav-link" [routerLink]="'/user/orders'">Orders</a>
         </li>
-        <li class="nav-item text-center" routerLinkActive="active">
+        <li class="nav-item text-center" routerLinkActive="active" *ngIf="isLogedin">
           <div class="pointer" (click)="navigateToCart()">
             <span class="badge badge-danger badge-position" *ngIf="cartItemCount>0">{{cartItemCount}}</span>
             <img src="../assets/images/cart-icon.png" class="cart-icon text-center pt-0" alt="cart">
           </div>
         </li>
-        <li class="nav-item" routerLinkActive="active">
+        <li class="nav-item" routerLinkActive="active" *ngIf="!isLogedin">
           <a class="nav-link" [routerLink]="'/signIn'">Login </a>
         </li>
-        <li class="nav-item" routerLinkActive="active">
+        <li class="nav-item" routerLinkActive="active" *ngIf="!isLogedin">
           <a class="nav-link" [routerLink]="'/signUp'">Register </a>
         </li>
-        <li class="nav-item" routerLinkActive="active">
+        <li class="nav-item" routerLinkActive="active" *ngIf="isLogedin">
           <a class="nav-link link-style" (click)="logout()">Logout </a>
         </li>
       </ul>
@@ -50,5 +51,6 @@
 </div>
 
 <div class="footer">
-  <p>Copyrights &#169; ShopKart</p>
+  <marquee direction="left" class="text-danger">*Note:-This is a sample <span class="text-success">E-Commerce Website</span>,We will  not consider Your Orders and Your credentails will be Secure!!! </marquee>
+  <p>Copyrights &#169; 2020 AbhiShop | All Rights Reserved.</p>
 </div>

@@ -13,7 +13,6 @@
                         <div *ngIf="signupForm.controls.Name.invalid && signupForm.controls.Name.touched">
                             <p class="help-block" *ngIf="signupForm.controls.Name.errors?.required">You can`t leave this
                                 empty.</p>
-
                         </div>
                     </div>
 
@@ -29,7 +28,7 @@
                             </p>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="formS">
                         <label for="Password">Password*</label>
                         <input type="password" class="form-control" formControlName="Password"
                             [ngClass]="{'is-invalid':signupForm.controls.Password.invalid && signupForm.controls.Password.touched}" />
@@ -38,6 +37,12 @@
                                 this
                                 empty.</p>
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <a class="float-left" [routerLink]="'/forgotPassword'">Forgot Password?</a>
+                        <a class="float-right" [routerLink]="'/signIn'">SignIn?</a>
+                        <div class="cleafix"></div>
                     </div>
 
                     <div class="text-center">
