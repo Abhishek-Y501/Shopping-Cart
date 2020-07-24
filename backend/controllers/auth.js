@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
 
-const api_key = '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';
+const api_key = 'your Api Key';
 sgMail.setApiKey(api_key);
 
 exports.signUp = ((req, res, next) => {
