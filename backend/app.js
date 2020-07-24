@@ -54,7 +54,7 @@ app.use((error, req, res, next) => {
 })
 
 
-mongoose.connect("mongodb+srv://abhishek:cGWmXz90wfvFZItP@cluster0-rfd5b.mongodb.net/SHOP_KART").then(result => {
+mongoose.connect("your mongodb url").then(result => {
     console.log('DB Connected!!!');
 }).catch(err => {
     console.log(err)
